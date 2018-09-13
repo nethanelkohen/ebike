@@ -42,8 +42,8 @@ class App extends Component {
         <h1>Find an electric citibike</h1>
         <h3>This page updates every 30 seconds</h3>
         <ol>
-          {stationId.map((f, i) => {
-            return <li key={i}>{f}</li>;
+          {stationId.map((id, i) => {
+            return <li key={i}>{id}</li>;
           })}
         </ol>
       </React.Fragment>
