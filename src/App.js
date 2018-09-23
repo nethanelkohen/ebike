@@ -2,10 +2,11 @@ import React, { Component } from "react";
 import "./App.css";
 
 class App extends Component {
-  state = { stationId: [], loading: true };
+  state = { stationId: [], loading: true, whereStationId: [] };
 
   componentDidMount() {
     this.getData();
+    this.checkNames();
     this.setTime();
   }
 
@@ -13,8 +14,11 @@ class App extends Component {
     setInterval(this.getData, 30000);
   };
 
-  getData = () => {
+  getData = async => {
     console.log("fetching data");
+
+    let { stationId } = this.state;
+
     fetch("https://gbfs.citibikenyc.com/gbfs/en/station_status.json")
       .then(res => {
         return res.json();
@@ -31,12 +35,23 @@ class App extends Component {
           });
         });
       });
+
     this.setState({ loading: false });
+  };
+
+  checkNames = () => {
+    fetch("http://appservices.citibikenyc.com/v1/station/updates")
+      .then(res => {
+        return res.json();
+      })
+      .then(blob => {
+        console.log(blob.results);
+        return blob;
+      });
   };
 
   renderStations() {
     let { stationId } = this.state;
-
     return (
       <React.Fragment>
         <h1>Find an electric citibike</h1>
